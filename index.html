@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Para Ti 💖</title>
+<style>
+body {
+    margin: 0;
+    font-family: 'Georgia', serif;
+    background: linear-gradient(180deg, #fdeff2, #fbd3e9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    text-align: center;
+}
+
+.hidden { display: none; }
+
+.container {
+    width: 90%;
+    max-width: 420px;
+    padding: 20px;
+}
+
+/* SOBRE */
+.envelope {
+    width: 260px;
+    height: 170px;
+    background: #f4a9b8;
+    margin: auto;
+    position: relative;
+    cursor: pointer;
+    border-radius: 12px;
+    animation: float 2.5s ease-in-out infinite;
+}
+
+.flap {
+    position: absolute;
+    top: 0;
+    width: 0;
+    height: 0;
+    border-left: 130px solid transparent;
+    border-right: 130px solid transparent;
+    border-bottom: 90px solid #e58fa1;
+    transform-origin: top;
+    transition: transform 1s;
+}
+
+.envelope.open .flap {
+    transform: rotateX(180deg);
+}
+
+@keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* NOTA Y CARTA */
+.card {
+    background: #fff;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    animation: fadeUp 1s ease;
+}
+
+button {
+    margin-top: 18px;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 30px;
+    background: #f4a9b8;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #e58fa1;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* TEXTO ESCRIBIÉNDOSE */
+#typedText {
+    text-align: left;
+    font-size: 16px;
+    line-height: 1.6;
+    white-space: pre-line;
+}
+
+/* CORAZONES */
+.heart {
+    position: absolute;
+    color: #ff6f91;
+    font-size: 20px;
+    animation: rise 4s linear infinite;
+}
+
+@keyframes rise {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-100vh); opacity: 0; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- SOBRE -->
+    <div id="envelopeSection">
+        <div class="envelope" onclick="openEnvelope()">
+            <div class="flap"></div>
+        </div>
+        <p>Toca el sobre 💌</p>
+    </div>
+
+    <!-- NOTA -->
+    <div id="noteSection" class="hidden">
+        <div class="card">
+            <p><strong>¿Quieres leer por qué eres muy especial para mí?</strong></p>
+            <button onclick="showLetter()">SÍ</button>
+        </div>
+    </div>
+
+    <!-- CARTA -->
+    <div id="letterSection" class="hidden">
+        <div class="card">
+            <div id="typedText"></div>
+            <button onclick="showFinal()">Continuar</button>
+        </div>
+    </div>
+
+    <!-- FINAL -->
+    <div id="finalSection" class="hidden">
+        <div class="card">
+            <p>
+                <strong>Gracias por ser quien eres.</strong><br><br>
+                Recuerda que aquí estoy para ti 💖
+            </p>
+        </div>
+    </div>
+
+</div>
+
+<script>
+const letterText = `Hola hermosa, quiero decirte que…
+
+eres una persona increíble y muy especial para mí.
+Tu sensibilidad, tu nobleza y tu manera de ver el mundo
+hacen que todo se sienta más bonito cuando estás cerca.
+
+Admiro tu corazón tan grande, tu forma de ayudar
+y la honestidad con la que dices lo que sientes.
+No necesitas aparentar nada para brillar,
+porque tu esencia habla por sí sola.
+
+Quiero que nunca olvides lo valiosa que eres
+y que sepas que aquí estoy,
+con cariño sincero y presente de verdad.
+
+Con todo mi corazón.`;
+
+let index = 0;
+
+function openEnvelope() {
+    document.querySelector('.envelope').classList.add('open');
+    setTimeout(() => {
+        document.getElementById('envelopeSection').classList.add('hidden');
+        document.getElementById('noteSection').classList.remove('hidden');
+    }, 1000);
+}
+
+function showLetter() {
+    document.getElementById('noteSection').classList.add('hidden');
+    document.getElementById('letterSection').classList.remove('hidden');
+    typeText();
+}
+
+function typeText() {
+    if (index < letterText.length) {
+        document.getElementById('typedText').innerHTML += letterText.charAt(index);
+        index++;
+        setTimeout(typeText, 40);
+    }
+}
+
+function showFinal() {
+    document.getElementById('letterSection').classList.add('hidden');
+    document.getElementById('finalSection').classList.remove('hidden');
+    startHearts();
+}
+
+function startHearts() {
+    setInterval(() => {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.innerHTML = '💖';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.bottom = '0px';
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 4000);
+    }, 300);
+}
+</script>
+
+</body>
+</html>
